@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Alagu Jewellery | Premium Gold and Silver Jewellery</title>
+<style>
+:root {
+  --maroon: #6d0f2b; --maroon-dark: #0a4a13; --gold: #d4af37; --gold-light: #f3d98b;
+  --pink: #ff5c8a; --cream: #fff8ef; --purple: #7b2ff7; --text-dark: #2b1810;
+  --shadow: 0 8px 24px rgba(109,15,43,0.18);
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:'Segoe UI',Tahoma,Verdana,sans-serif; background:linear-gradient(160deg,var(--cream),#fdeef3 60%,#fff); color:var(--text-dark); }
+a { text-decoration:none; color:inherit; }
+ul { list-style:none; }
+img { max-width:100%; display:block; }
+header { background:linear-gradient(120deg,var(--maroon),var(--maroon-dark) 70%); color:#fff; box-shadow:var(--shadow); position:sticky; top:0; z-index:100; }
+.top-bar { display:flex; justify-content:space-between; align-items:center; padding:8px 5%; background:linear-gradient(90deg,var(--gold),var(--gold-light)); color:var(--maroon-dark); font-size:.85rem; flex-wrap:wrap; gap:6px; }
+.navbar { display:flex; align-items:center; justify-content:space-between; padding:14px 5%; flex-wrap:wrap; gap:12px; }
+.logo { font-size:1.8rem; font-weight:800; letter-spacing:1px; background:linear-gradient(90deg,var(--gold-light),var(--gold),#fff9e0); -webkit-background-clip:text; background-clip:text; color:transparent; }
+.logo span { display:block; font-size:.75rem; letter-spacing:4px; color:var(--gold-light); -webkit-text-fill-color:var(--gold-light); }
+.nav-links { display:flex; gap:24px; font-weight:600; flex-wrap:wrap; }
+.nav-links a, .nav-links span { padding:6px 4px; border-bottom:2px solid transparent; transition:.25s; cursor:pointer; }
+.nav-links a:hover, .nav-links span:hover { border-bottom:2px solid var(--gold); color:var(--gold-light); }
+.search-box { display:flex; gap:6px; }
+.search-box input { padding:8px 12px; border-radius:20px; border:none; outline:none; width:180px; }
+.search-box button { background:var(--gold); border:none; border-radius:20px; padding:8px 16px; font-weight:700; color:var(--maroon-dark); cursor:pointer; }
+.hero { background:linear-gradient(120deg,var(--purple),var(--pink) 55%,var(--gold) 130%); color:#fff; text-align:center; padding:70px 5% 90px; position:relative; overflow:hidden; }
+.hero::before,.hero::after { content:''; position:absolute; border-radius:50%; background:rgba(255,255,255,.12); }
+.hero::before { width:260px; height:260px; top:-80px; left:-60px; }
+.hero::after { width:200px; height:200px; bottom:-70px; right:-40px; }
+.hero h1 { font-size:2.6rem; font-weight:800; text-shadow:2px 2px 8px rgba(0,0,0,.25); }
+.hero p { margin-top:12px; font-size:1.15rem; opacity:.95; }
+.hero .cta { margin-top:28px; display:inline-block; background:var(--gold); color:var(--maroon-dark); padding:12px 30px; border-radius:30px; font-weight:700; box-shadow:0 6px 16px rgba(0,0,0,.25); cursor:pointer; border:none; font-size:1rem; }
+.hero .cta:hover { transform:translateY(-3px); background:var(--gold-light); }
+.category-strip { display:flex; gap:14px; overflow-x:auto; padding:22px 5%; background:#fff; box-shadow:var(--shadow); }
+.category-pill { flex:0 0 auto; padding:10px 20px; border-radius:24px; font-weight:700; background:linear-gradient(120deg,#ffe1ec,#fff2d6); color:var(--maroon-dark); cursor:pointer; border:2px solid transparent; transition:.2s; white-space:nowrap; }
+.category-pill:hover,.category-pill.active { border-color:var(--gold); background:linear-gradient(120deg,var(--gold-light),var(--pink)); color:#fff; transform:translateY(-2px); }
+.section-title { text-align:center; margin:40px 0 10px; font-size:2rem; font-weight:800; color:var(--maroon); }
+.section-sub { text-align:center; color:#7a5a5a; margin-bottom:24px; }
+.product-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(230px,1fr)); gap:22px; padding:10px 5% 60px; }
+.product-card { background:#fff; border-radius:18px; overflow:hidden; box-shadow:var(--shadow); transition:.3s; border:2px solid transparent; position:relative; }
+.product-card:hover { transform:translateY(-8px) scale(1.02); border-color:var(--gold); }
+.product-card .badge { position:absolute; top:10px; left:10px; background:var(--purple); color:#fff; padding:4px 10px; font-size:.7rem; border-radius:12px; font-weight:700; }
+.product-card img { width:100%; height:210px; object-fit:cover; }
+.product-info { padding:14px 16px 18px; }
+.product-info h3 { font-size:1.02rem; color:var(--maroon-dark); margin-bottom:6px; }
+.product-info .meta { font-size:.78rem; color:#8a6b6b; margin-bottom:8px; }
+.product-info .price { font-size:1.2rem; font-weight:800; color:var(--pink); }
+.product-info .price small { font-size:.7rem; color:#999; font-weight:400; }
+.out-of-stock { opacity:.55; }
+.stock-tag { display:inline-block; margin-top:6px; font-size:.72rem; font-weight:700; padding:3px 10px; border-radius:10px; }
+.in-stock { background:#dcfce7; color:#15803d; }
+.no-stock { background:#fee2e2; color:#b91c1c; }
+.load-more-wrap { text-align:center; padding-bottom:40px; }
+.load-more-wrap button { background:linear-gradient(90deg,var(--maroon),var(--pink)); color:#fff; border:none; padding:12px 34px; border-radius:26px; font-weight:700; cursor:pointer; box-shadow:var(--shadow); }
+.about-contact { background:linear-gradient(120deg,#fff2e0,#ffe6ef); padding:60px 5%; }
+.grid-2 { display:grid; grid-template-columns:1fr 1fr; gap:40px; }
+@media (max-width:800px) { .grid-2 { grid-template-columns:1fr; } }
+.card-box { background:#fff; border-radius:18px; padding:30px; box-shadow:var(--shadow); }
+.card-box h2 { color:var(--maroon); margin-bottom:14px; }
+.card-box p { line-height:1.7; color:#5c4444; }
+.contact-list li { display:flex; align-items:center; gap:12px; margin:14px 0; font-weight:600; }
+.contact-list .icon { width:40px; height:40px; border-radius:50%; background:linear-gradient(120deg,var(--gold),var(--pink)); display:flex; align-items:center; justify-content:center; color:#fff; font-size:1.1rem; flex-shrink:0; }
+footer { background:var(--maroon-dark); color:#f3d9d9; text-align:center; padding:28px 5%; font-size:.9rem; }
+footer a { color:var(--gold-light); font-weight:600; }
+.hidden { display:none !important; }
+.admin-wrapper { min-height:100vh; background:linear-gradient(160deg,var(--cream),#ffe6ef); padding:20px 0; }
+.login-box { max-width:380px; margin:60px auto; background:#fff; padding:40px 32px; border-radius:18px; box-shadow:var(--shadow); text-align:center; }
+.login-box h2 { color:var(--maroon); margin-bottom:6px; }
+.login-box p { color:#8a6b6b; margin-bottom:20px; font-size:.9rem; }
+.login-box input { width:100%; padding:12px 14px; margin-bottom:14px; border-radius:10px; border:1.5px solid #eed6d6; outline:none; font-size:.95rem; }
+.login-box input:focus { border-color:var(--gold); }
+.login-box button { width:100%; padding:12px; background:linear-gradient(90deg,var(--maroon),var(--pink)); color:#fff; border:none; border-radius:10px; font-weight:700; cursor:pointer; font-size:1rem; }
+.error-msg { color:#c0392b; font-size:.85rem; margin-top:8px; min-height:18px; }
+.admin-panel { padding:10px 4% 40px; }
+.admin-top { display:flex; justify-content:space-between; align-items:center; margin-bottom:24px; flex-wrap:wrap; gap:12px; }
+.admin-top h1 { color:var(--maroon); font-size:1.5rem; }
+.btn { padding:10px 20px; border-radius:10px; border:none; font-weight:700; cursor:pointer; }
+.btn-primary { background:linear-gradient(90deg,var(--gold),var(--gold-light)); color:var(--maroon-dark); }
+.btn-danger { background:#ff5c5c; color:#fff; }
+.btn-outline { background:#fff; border:2px solid var(--maroon); color:var(--maroon); }
+.admin-table-wrap { overflow-x:auto; background:#fff; border-radius:14px; box-shadow:var(--shadow); }
+table { width:100%; border-collapse:collapse; min-width:900px; }
+th,td { padding:12px 14px; text-align:left; border-bottom:1px solid #f1e3e3; font-size:.9rem; }
+th { background:var(--maroon); color:#fff; position:sticky; top:0; }
+tr:hover { background:#fff7f2; }
+td img { width:50px; height:50px; object-fit:cover; border-radius:8px; }
+.modal-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,.5); align-items:center; justify-content:center; z-index:200; }
+.modal-overlay.show { display:flex; }
+.modal-box { background:#fff; border-radius:16px; padding:28px; width:92%; max-width:480px; max-height:90vh; overflow-y:auto; }
+.modal-box h3 { color:var(--maroon); margin-bottom:16px; }
+.form-group { margin-bottom:12px; }
+.form-group label { display:block; font-size:.85rem; font-weight:700; margin-bottom:4px; color:var(--maroon-dark); }
+.form-group input,.form-group select,.form-group textarea { width:100%; padding:10px; border-radius:8px; border:1.5px solid #eed6d6; outline:none; font-size:.9rem; }
+.form-actions { display:flex; gap:10px; margin-top:16px; }
+.toast { position:fixed; bottom:24px; right:24px; background:var(--maroon); color:#fff; padding:14px 22px; border-radius:10px; box-shadow:var(--shadow); display:none; z-index:300; font-weight:600; }
+.toast.show { display:block; }
+@media (max-width:700px) { .hero h1 { font-size:1.8rem; } .navbar { flex-direction:column; align-items:flex-start; } }
+</style>
+</head>
+<body>
+
+<div id="shopView">
+<header>
+  <div class="top-bar">
+    <div>Call: +91 98765 43210 &nbsp;|&nbsp; Email: contact@alagujewellery.com</div>
+    <div>Free Delivery Across Tamil Nadu | Open: 9:30 AM - 9:00 PM</div>
+  </div>
+  <div class="navbar">
+    <div class="logo">ALAGU JEWELLERY <span>PURE GOLD &nbsp; SILVER &nbsp; DIAMOND</span></div>
+    <ul class="nav-links">
+      <li><a href="#home">Home</a></li>
+      <li><a href="#shop">Shop</a></li>
+      <li><a href="#about">About Us</a></li>
+      <li><a href="#contact">Contact</a></li>
+      <li><span onclick="goToAdmin()">Owner Login</span></li>
+    </ul>
+    <form class="search-box" onsubmit="return doSearch(event)">
+      <input type="text" id="searchInput" placeholder="Search jewellery...">
+      <button type="submit">Search</button>
+    </form>
+  </div>
+</header>
+
+<section class="hero" id="home">
+  <h1>Alagu Jewellery</h1>
+  <p>Trusted Since Generations &mdash; Pure Gold, Silver &amp; Diamond Jewellery Crafted With Love</p>
+  <button class="cta" onclick="document.getElementById('shop').scrollIntoView({behavior:'smooth'})">Shop Now</button>
+</section>
+
+<div class="category-strip" id="categoryStrip"></div>
+
+<div id="shop">
+  <h2 class="section-title">Our Jewellery Collection</h2>
+  <p class="section-sub" id="resultCount"></p>
+  <div class="product-grid" id="productGrid"></div>
+  <div class="load-more-wrap">
+    <button id="loadMoreBtn" onclick="loadMore()">Load More</button>
+  </div>
+</div>
+
+<section class="about-contact" id="about">
+  <div class="grid-2">
+    <div class="card-box">
+      <h2>About Alagu Jewellery</h2>
+      <p>Alagu Jewellery has been a trusted name in traditional and modern jewellery craftsmanship.
+      We bring you an exclusive collection of chains, rings, necklaces, bangles, earrings, bracelets,
+      pendants and anklets &mdash; handcrafted with pure gold, silver and precious stones. Every design
+      reflects our passion for quality, purity and elegant craftsmanship, offering pieces perfect
+      for weddings, festivals and everyday wear.</p>
+    </div>
+    <div class="card-box" id="contact">
+      <h2>Contact Us</h2>
+      <ul class="contact-list">
+        <li><span class="icon">&#128205;</span> No. 12, Big Bazaar Street, Coimbatore, Tamil Nadu - 641001</li>
+        <li><span class="icon">&#128222;</span> +91 98765 43210 / +91 91234 56789</li>
+        <li><span class="icon">&#9993;</span> contact@alagujewellery.com</li>
+        <li><span class="icon">&#128337;</span> Mon - Sun: 9:30 AM - 9:00 PM</li>
+        <li><span class="icon">&#128248;</span> Instagram: @alagu_jewellery</li>
+        <li><span class="icon">&#128172;</span> WhatsApp: +91 98765 43210</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>&copy; 2026 Alagu Jewellery. All Rights Reserved.</p>
+  <p>Designed with care for <a href="#home">Alagu Jewellery</a></p>
+</footer>
+</div>
+
+<div id="adminView" class="admin-wrapper hidden">
+
+  <div id="loginView" class="login-box">
+    <h2>Owner Login</h2>
+    <p>Alagu Jewellery &mdash; Admin Access</p>
+    <input type="text" id="username" placeholder="Username">
+    <input type="password" id="password" placeholder="Password">
+    <button onclick="doLogin()">Login</button>
+    <div class="error-msg" id="loginError"></div>
+    <p style="margin-top:16px;"><span onclick="goToShop()" style="color:var(--maroon); font-weight:600; cursor:pointer;">Back to Website</span></p>
+  </div>
+
+  <div id="panelView" class="admin-panel hidden">
+    <div class="admin-top">
+      <h1>Alagu Jewellery &mdash; Owner Panel</h1>
+      <div style="display:flex; gap:10px; flex-wrap:wrap;">
+        <button class="btn btn-primary" onclick="openAddModal()">+ Add New Jewellery</button>
+        <button class="btn btn-outline" onclick="openPasswordModal()">Change Password</button>
+        <button class="btn btn-outline" onclick="goToShop()">View Website</button>
+        <button class="btn btn-danger" onclick="doLogout()">Logout</button>
+      </div>
+    </div>
+    <div class="admin-table-wrap">
+      <table>
+        <thead>
+          <tr><th>Image</th><th>Name</th><th>Category</th><th>Price (Rs)</th><th>Material</th><th>Weight</th><th>Stock</th><th>Actions</th></tr>
+        </thead>
+        <tbody id="productTableBody"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="productModal">
+  <div class="modal-box">
+    <h3 id="modalTitle">Add New Jewellery</h3>
+    <input type="hidden" id="editId">
+    <div class="form-group"><label>Name</label><input type="text" id="f_name"></div>
+    <div class="form-group"><label>Category</label>
+      <select id="f_category">
+        <option>Chain</option><option>Ring</option><option>Necklace</option>
+        <option>Bangle</option><option>Earring</option><option>Bracelet</option>
+        <option>Pendant</option><option>Anklet</option>
+      </select>
+    </div>
+    <div class="form-group"><label>Price (Rs)</label><input type="number" id="f_price"></div>
+    <div class="form-group"><label>Weight (e.g. 8.5g)</label><input type="text" id="f_weight"></div>
+    <div class="form-group"><label>Material</label><input type="text" id="f_material" placeholder="22K Gold / 925 Silver"></div>
+    <div class="form-group"><label>Image URL</label><input type="text" id="f_image"></div>
+    <div class="form-group"><label>Description</label><textarea id="f_description" rows="3"></textarea></div>
+    <div class="form-group"><label><input type="checkbox" id="f_instock" style="width:auto;"> In Stock</label></div>
+    <div class="form-actions">
+      <button class="btn btn-primary" onclick="saveProduct()">Save</button>
+      <button class="btn btn-outline" onclick="closeModal('productModal')">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="passwordModal">
+  <div class="modal-box">
+    <h3>Change Password</h3>
+    <div class="form-group"><label>Current Password</label><input type="password" id="p_current"></div>
+    <div class="form-group"><label>New Password</label><input type="password" id="p_new"></div>
+    <div class="error-msg" id="passwordError"></div>
+    <div class="form-actions">
+      <button class="btn btn-primary" onclick="changePassword()">Update</button>
+      <button class="btn btn-outline" onclick="closeModal('passwordModal')">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+var DEFAULT_PRODUCTS = [{"id":1,"name":"Gold Rope Chain #1","category":"Chain","price":13690,"weight":"17.2g","material":"Gold Plated","description":"Elegant handcrafted gold rope chain from Alagu Jewellery, perfect for weddings, festivals and daily wear.","image":"https://picsum.photos/seed/gold1/500/500","inStock":true},{"id":2,"name":"Box Chain #2","category":"Chain","price":9340,"weight":"5.5g","material":"Gold Plated","description":"Elegant handcrafted box chain from Alagu Jewellery, perfect for weddings, festivals and daily wear.","image":"https://picsum.photos/seed/gold2/500/500","inStock":true},{"id":3,"name":"Figaro Chain #3","category":"Chain","price":13800,"weight":"17.6g","material":"Gold Plated","description":"Elegant handcrafted figaro chain from Alagu Jewellery, perfect for weddings, festivals and daily wear.","image":"https://picsum.photos/seed/gold3/500/500","inStock":true},{"id":4,"name":"Cuban Link Chain #4","category":"Chain","price":12730,"weight":"15.3g","material":"18K Gold","description":"Elegant handcrafted cuban link chain from Alagu Jewellery, perfect for weddings, festivals and daily wear.","image":"https://picsum.photos/seed/gold4/500/500","inStock":true},{"id":5,"name":"Kolusu Chain #5","category":"Chain","price":8650,"weight":"4.1g","material":"18K Gold","description":"Elegant handcrafted kolusu chain from Alagu Jewellery, perfect for weddings, festivals and daily wear.","image":"https://picsum.photos/seed/gold5/500/500","inStock":true},{"id":6,"name":"Anchor Chain #6","category":"Chain","price":10890,"weight":"12.1g","material":"925 Silver","description":"Elegant handcrafted anchor chain from Alagu Jewellery, perfect for weddings, festivals and daily wear.","image":"https://picsum.photos/seed/gold6/500/500","inStock":true},{"id":7,"name":"Ball Chain #7","category":"Chain","price":8050,"weight":"21.2g","material":"Gold Plated","description":"Elegant handcrafted ball chain from Alagu Jewellery, perfect for weddings, festivals and daily wear.","image":"https://picsum.photos/seed/gold7/500/500","inStock":true},{"id":8,"name":"Wheat Chain #8","category":"Chain","price":10980,"weight":"16.0g","material":"Gold Plated","description":"Elegant handcrafted wheat chain from Alagu Jewellery, perfect for weddings, festivals and daily wear.","image":"https://picsum.photos/seed/gold8/500/500","inStock":true},{"id":9,"name":"Snake Chain #9","category":"Chain","price":13040,"weight":"6.6g","material":"Gold Plated","description":"Elegant handcrafted snake chain from Alagu Jewellery, perfect for weddings, festivals and daily wear.","image":"https://picsum.photos/seed/gold9/500/500","inStock":true},{"id":10,"name":"Cable Chain #10","category":"Chain","price":11940,"weight":"2.1g","material":"18K Gold","description":"Elegant handcrafted cable chain from Alagu Jewellery, perfect for weddings, festivals and daily wear.","image":"https://picsum.photos/seed/gold10/500/500","inStock":true},{"id":11,"name":"Byzantine Chain #11","category":"Chain","price":9150,"weight":"10.9g","material":"925 Silver","description":"Elegant handcrafted byzantine chain from Alagu Jewellery, perfect for weddings, festivals and daily wear.","image":"https://picsum.photos/seed/gold11/500/500","inStock":true},{"id":12,"name":"Herringbone Chain #12","category":"Chain","price":12100,"weight":"10.1g","material":"22K Gold","description":"Elegant handcrafted herringbone chain from Alagu Jewellery, perfect for weddings, festivals and daily wear.","image":"https://picsum.photos/seed/gold12/500/500","inStock":true},{"id":13,"name":"Singapore Chain #13","category":"Chain","price":11320,"weight":"20.1g","material":"925 Silver","description":"Elegant handcrafted singapore chain from Alagu Jewellery, perfect for weddings, festivals and daily wear.","image":"https://picsum.photos/seed/gold13/500/500","inStock":true},{"id":14,"name":"Mariner Chain #14","category":"Chain","price":8530,"weight":"6.9g","material":"22K Gold","description":"Elegant handcrafted mariner chain from Alagu Jewellery, perfect for weddings, festivals and daily wear.","image":"https://picsum.photos/seed/gold14/500/500","inStock":true},{"id":15,"name":"Curb Chain #15","category":"Chain","price":14360,"weight":"16.4g","material":"925 Silver","description":"Elegant handcrafted curb chain from Alagu Jewellery, perfect for weddings, festivals and daily wear.","image":"https://picsum.photos/seed/gold15/500/500","inStock":true},{"id":16,"name":"Solitaire Ring #16","category":"Ring","price":3840,"weight":"21.1g","material":"22K Gold","description":"Elegant handcrafted solitaire ring from Alagu Jewellery, perfect for weddings, festivals and daily wear.","image":"https://picsum.photos/seed/diamond16/500/500","inStock":true},{"id":17,"name":"Diamond Halo Ring #17","category":"Ring","price":5950,"weight":"21.9g","material":"22K Gold","description":"Elegant handcrafted diamond halo ring from Alagu Jewellery, perfect for weddings, festivals and daily wear.","image":"https://picsum.photos/seed/diamond17/500/500","inStock":true},{"id":18,"name":"Antique Temple Ring #18","category":"Ring","price":6290,"weight":"9.6g","material":"925 Silver","description":"Elegant handcrafted antique temple ring from Alagu Jewellery, perfect for weddings, festivals and daily wear.","image":"https://picsum.photos/seed/diamond18/500/500","inStock":true},{"id":19,"name":"Engagement Ring #19","category":"Ring","price":5390,"weight":"12.1g","material":"Gold Plated","description":"Elegant handcrafted engagement ring from Alagu Jewellery, perfect for weddings, festivals and daily wear.","image":"https://picsum.photos/seed/diamond19/500/500","inStock":true},{"id":20,"name":"Couple Band Ring #20","category":"Ring","price":5770,"weight":"14.8g","material":"18K Gold","description":"Elegant handcrafted couple band ring from Alagu Jewellery, perfect for weddings, festivals and daily wear.","image":"https://picsum.photos/seed/diamond20/500/500","inStock":true},{"id":21,"name":"Peacock Design Ring #21","category":"Ring","price":6130,"weight":"16.9g","material":"Gold Plated","description":"Elegant handcrafted peacock design ring from Alagu Jewellery, perfect for weddings, festivals and daily wear.","image":"https://picsum.photos/seed/diamond21/500/500","inStock":true},{"id":22,"name":"Floral Ring #22","category":"Ring","price":5430,"weight":"20.3g","material":"22K Gold","description":"Elegant handcrafted floral ring from Alagu Jewellery, perfect for weddings, festivals and daily wear.","image":"https://picsum.photos/seed/diamond22/500/500","inStock":true},{"id":23,"name":"Ruby Studded Ring #23","category":"Ring","price":4670,"weight":"3.7g","material":"Gold Plated","description":"Elegant handcrafted ruby studded ring from Alagu Jewellery, perfect for weddings, festivals and daily wear.","image":"https://picsum.photos/seed/diamond23/500/500","inStock":true},{"id":24,"name":"Emerald Ring #24","category":"Ring","price":5310,"weight":"16.7g","material":"925 Silver","description":"Elegant handcrafted emerald ring from Alagu Jewellery, perfect for weddings, festivals and daily wear.","image":"https://picsum.photos/seed/diamond24/500/500","inStock":true},{"id":25,"name":"Twisted Band Ring #25","category":"Ring","price":4130,"weight":"9.2g","material":"Gold Plated","description":"Elegant handcrafted twisted band ring from Alagu Jewellery, perfect for weddings, festivals and daily wear.","image":"https://picsum.photos/seed/diamond25/500/500","inStock":true},{"id":26,"name":"Adjustable Ring #26","category":"Ring","price":6220,"weight":"21.2g","material":"18K Gold","description":"Elegant handcrafted adjustable ring from Alagu Jewellery, perfect for weddings, festivals and daily wear.","image":"https://picsum.photos/seed/diamond26/500/500","inStock":true},{"id":27,"name":"Cocktail Ring #27","category":"Ring","price":5070,"weight":"7.4g","material":"18K Gold","description":"Elegant handcrafted cocktail ring from Alagu Jewellery, perfect for weddings, festivals and daily wear.","image":"https://picsum.photos/seed/diamond27/500/500","inStock":true},{"id":28,"name":"Nagas Ring #28","category":"Ring","price":4600,"weight":"13.0g","material":"18K Gold","description":"Elegant handcrafted nagas ring from Alagu Jewellery, perfect for weddings, festivals and daily wear.","image":"https://picsum.photos/seed/diamond28/500/500","inStock":true},{"id":29,"name":"Vanki Ring #29","category":"Ring","price":6130,"weight":"5.2g","material":"18K Gold","description":"Elegant handcrafted vanki ring from Alagu Jewellery, perfect for weddings, festivals and daily wear.","image":"https://picsum.photos/seed/diamond29/500/500","inStock":true},{"id":30,"name":"Stackable Ring Set #30","category":"Ring","price":6180,"weight":"18.1g","material":"925 Silver","description":"Elegant handcrafted stackable ring set from Alagu Jewellery, perfect for weddings, festivals and daily wear.","image":"https://picsum.photos/seed/diamond30/500/500","inStock":true},{"id":31,"name":"Bridal Necklace Set #31","category":"Necklace","price":18600,"weight":"10.5g","material":"22K Gold","description":"Elegant handcrafted bridal necklace set from Alagu Jewellery, perfect for weddings, festivals and daily wear.","image":"https://picsum.photos/seed/bridal31/500/500","inStock":true},{"id":32,"name":"Temple Necklace #32","category":"Necklace","price":19090,"weight":"17.6g","material":"925 Silver","description":"Elegant handcrafted temple necklace from Alagu Jewellery, perfect for weddings, festivals and daily wear.","image":"https://picsum.photos/seed/bridal32/500/500","inStock":true},{"id":33,"name":"Kundan Necklace #33","category":"Necklace","price":22680,"weight":"11.0g","material":"18K Gold","description":"Elegant handcrafted kundan necklace from Alagu Jewellery, perfect for weddings, festivals and daily wear.","image":"https://picsum.photos/seed/bridal33/500/500","inStock":true},{"id":34,"name":"Choker Necklace #34","category":"Necklace","price":22010,"weight":"18.7g","material":"22K Gold","description":"Elegant handcrafted choker necklace from Alagu Jewellery, perfect for weddings, festivals and daily wear.","image":"https://picsum.photos/seed/bridal34/500/500","inStock":true},{"id":35,"name":"Multi Layer Necklace #35","category":"Necklace","price":17360,"weight":"13.7g","material":"925 Silver","description":"Elegant handcrafted multi layer necklace from Alagu Jewellery, perfect for weddings, festivals and daily wear.","image":"https://picsum.photos/seed/bridal35/500/500","inStock":true},{"id":36,"name":"Antique Necklace #36","category":"Necklace","price":18670,"weight":"14.2g","material":"925 Silver","description":"Elegant handcrafted antique necklace from Alagu Jewellery, perfect for weddings, festivals and daily wear.","image":"https://picsum.photos/seed/bridal36/500/500","inStock":true},{"id":37,"name":"Peacock Necklace #37","category":"Necklace","price":24540,"weight":"8.8g","material":"Gold Plated","description":"Elegant handcrafted peacock necklace from Alagu Jewellery, perfect for weddings, festivals and daily wear.","image":"https://picsum.photos/seed/bridal37/500/500","inStock":true},{"id":38,"name":"American Diamond Necklace #38","category":"Necklace","price":25900,"weight":"17.4g","material":"925 Silver","description":"Elegant handcrafted american diamond necklace from Alagu Jewellery, perfect for weddings, festivals and daily wear.","image":"https://picsum.photos/seed/bridal38/500/500","inStock":true},{"id":39,"name":"Ruby Necklace #39","category":"Necklace","price":15070,"weight":"4.7g","material":"22K Gold","description":"Elegant handcrafted ruby necklace from Alagu Jewellery, perfect for weddings, festivals and daily wear.","image":"https://picsum.photos/seed/bridal39/500/500","inStock":true},{"id":40,"name":"Emerald Necklace #40","category":"Necklace","price":23850,"weight":"4.0g","material":"18K Gold","description":"Elegant handcrafted emerald necklace from Alagu Jewellery, perfect for weddings, festivals and daily wear.","image":"https://picsum.photos/seed/bridal40/500/500","inStock":true},{"id":41,"name":"Pearl Necklace #41","category":"Necklace","price":23840,"weight":"2.4g","material":"925 Silver","description":"Elegant handcrafted pearl necklace from Alagu Jewellery, perfect for weddings, festivals and daily wear.","image":"https://picsum.photos/seed/bridal41/500/500","inStock":true},{"id":42,"name":"Mango Malai Necklace #42","category":"Necklace","price":22940,"weight":"9.8g","material":"22K Gold","description":"Elegant handcrafted mango malai necklace from Alagu Jewellery, perfect for weddings, festivals and daily wear.","image":"https://picsum.photos/seed/bridal42/500/500","inStock":true},{"id":43,"name":"Lakshmi Necklace #43","category":"Necklace","price":19890,"weight":"7.8g","material":"22K Gold","description":"Elegant handcrafted lakshmi necklace from Alagu Jewellery, perfect for weddings, festivals and daily wear.","image":"https://picsum.photos/seed/bridal43/500/500","inStock":true},{"id":44,"name":"Coin Necklace #44","category":"Necklace","price":21500,"weight":"20.3g","material":"22K Gold","description":"Elegant handcrafted coin necklace from Alagu Jewellery, perfect for weddings, festivals and daily wear.","image":"https://picsum.photos/seed/bridal44/500/500","inStock":true},{"id":45,"name":"Floral Necklace #45","category":"Necklace","price":25600,"weight":"4.7g","material":"925 Silver","description":"Elegant handcrafted floral necklace from Alagu Jewellery, perfect for weddings, festivals and daily wear.","image":"https://picsum.photos/seed/bridal45/500/500","inStock":true},{"id":46,"name":"Kada Bangle #46","category":"Bangle","price":15830,"weight":"19.6g","material":"18K Gold","description":"Elegant handcrafted kada bangle from Alagu Jewellery, perfect for weddings, festivals and daily wear.","image":"https://picsum.photos/seed/temple46/500/500","inStock":true},{"id":47,"name":"Antique Bangle Set #47","category":"Bangle","price":13390,"weight":"8.9g","material":"22K Gold","description":"Elegant handcrafted antique bangle set from Alagu Jewellery, perfect for weddings, festivals and daily wear.","image":"https://picsum.photos/seed/temple47/500/500","inStock":true},{"id":48,"name":"Temple Bangle #48","category":"Bangle","price":13240,"weight":"3.1g","material":"22K Gold","description":"Elegant handcrafted temple bangle from Alagu Jewellery, perfect for weddings, festivals and daily wear.","image":"https://picsum.photos/seed/temple48/500/500","inStock":true},{"id":49,"name":"Diamond Cut Bangle #49","category":"Bangle","price":14480,"weight":"10.8g","material":"18K Gold","description":"Elegant handcrafted diamond cut bangle from Alagu Jewellery, perfect for weddings, festivals and daily wear.","image":"https://picsum.photos/seed/temple49/500/500","inStock":true},{"id":50,"name":"Screw Bangle #50","category":"Bangle","price":14550,"weight":"17.2g","material":"Gold Plated","description":"Elegant handcrafted screw bangle from Alagu Jewellery, perfect for weddings, festivals and daily wear.","image":"https://picsum.photos/seed/temple50/500/500","inStock":true},{"id":51,"name":"Broad Bangle #51","category":"Bangle","price":17680,"weight":"11.9g","material":"22K Gold","description":"Elegant handcrafted broad bangle from Alagu Jewellery, perfect for weddings, festivals and daily wear.","image":"https://picsum.photos/seed/temple51/500/500","inStock":true},{"id":52,"name":"Ruby Bangle #52","category":"Bangle","price":18510,"weight":"2.9g","material":"Gold Plated","description":"Elegant handcrafted ruby bangle from Alagu Jewellery, perfect for weddings, festivals and daily wear.","image":"https://picsum.photos/seed/temple52/500/500","inStock":true},{"id":53,"name":"Peacock Bangle #53","category":"Bangle","price":15780,"weight":"10.7g","material":"Gold Plated","description":"Elegant handcrafted peacock bangle from Alagu Jewellery, perfect for weddings, festivals and daily wear.","image":"https://picsum.photos/seed/temple53/500/500","inStock":true},{"id":54,"name":"Filigree Bangle #54","category":"Bangle","price":19150,"weight":"14.2g","material":"Gold Plated","description":"Elegant handcrafted filigree bangle from Alagu Jewellery, perfect for weddings, festivals and daily wear.","image":"https://picsum.photos/seed/temple54/500/500","inStock":true},{"id":55,"name":"Meenakari Bangle #55","category":"Bangle","price":12310,"weight":"8.7g","material":"22K Gold","description":"Elegant handcrafted meenakari bangle from Alagu Jewellery, perfect for weddings, festivals and daily wear.","image":"https://picsum.photos/seed/temple55/500/500","inStock":true},{"id":56,"name":"Openable Bangle #56","category":"Bangle","price":18050,"weight":"9.5g","material":"18K Gold","description":"Elegant handcrafted openable bangle from Alagu Jewellery, perfect for weddings, festivals and daily wear.","image":"https://picsum.photos/seed/temple56/500/500","inStock":true},{"id":57,"name":"Twisted Bangle #57","category":"Bangle","price":18630,"weight":"9.6g","material":"925 Silver","description":"Elegant handcrafted twisted bangle from Alagu Jewellery, perfect for weddings, festivals and daily wear.","image":"https://picsum.photos/seed/temple57/500/500","inStock":true},{"id":58,"name":"Charm Bangle #58","category":"Bangle","price":20960,"weight":"7.7g","material":"925 Silver","description":"Elegant handcrafted charm bangle from Alagu Jewellery, perfect for weddings, festivals and daily wear.","image":"https://picsum.photos/seed/temple58/500/500","inStock":true},{"id":59,"name":"Bridal Bangle Set #59","category":"Bangle","price":13600,"weight":"6.5g","material":"Gold Plated","description":"Elegant handcrafted bridal bangle set from Alagu Jewellery, perfect for weddings, festivals and daily wear.","image":"https://picsum.photos/seed/temple59/500/500","inStock":true},{"id":60,"name":"Guard Bangle #60","category":"Bangle","price":19540,"weight":"21.4g","material":"925 Silver","description":"Elegant handcrafted guard bangle from Alagu Jewellery, perfect for weddings, festivals and daily wear.","image":"https://picsum.photos/seed/temple60/500/500","inStock":true},{"id":61,"name":"Jhumka Earring #61","category":"Earring","price":7450,"weight":"18.5g","material":"22K Gold","description":"Elegant handcrafted jhumka earring from Alagu Jewellery, perfect for weddings, festivals and daily wear.","image":"https://picsum.photos/seed/jhumka61/500/500","inStock":true},{"id":62,"name":"Stud Earring #62","category":"Earring","price":6080,"weight":"9.7g","material":"925 Silver","description":"Elegant handcrafted stud earring from Alagu Jewellery, perfect for weddings, festivals and daily wear.","image":"https://picsum.photos/seed/jhumka62/500/500","inStock":true},{"id":63,"name":"Chandbali Earring #63","category":"Earring","price":5680,"weight":"18.0g","material":"22K Gold","description":"Elegant handcrafted chandbali earring from Alagu Jewellery, perfect for weddings, festivals and daily wear.","image":"https://picsum.photos/seed/jhumka63/500/500","inStock":true},{"id":64,"name":"Drop Earring #64","category":"Earring","price":5240,"weight":"12.4g","material":"18K Gold","description":"Elegant handcrafted drop earring from Alagu Jewellery, perfect for weddings, festivals and daily wear.","image":"https://picsum.photos/seed/jhumka64/500/500","inStock":true},{"id":65,"name":"Hoop Earring #65","category":"Earring","price":4570,"weight":"11.5g","material":"18K Gold","description":"Elegant handcrafted hoop earring from Alagu Jewellery, perfect for weddings, festivals and daily wear.","image":"https://picsum.photos/seed/jhumka65/500/500","inStock":true},{"id":66,"name":"Peacock Jhumka #66","category":"Earring","price":6130,"weight":"20.8g","material":"22K Gold","description":"Elegant handcrafted peacock jhumka from Alagu Jewellery, perfect for weddings, festivals and daily wear.","image":"https://picsum.photos/seed/jhumka66/500/500","inStock":true},{"id":67,"name":"Kundan Earring #67","category":"Earring","price":4940,"weight":"17.9g","material":"925 Silver","description":"Elegant handcrafted kundan earring from Alagu Jewellery, perfect for weddings, festivals and daily wear.","image":"https://picsum.photos/seed/jhumka67/500/500","inStock":true},{"id":68,"name":"Ruby Stud #68","category":"Earring","price":6450,"weight":"17.5g","material":"925 Silver","description":"Elegant handcrafted ruby stud from Alagu Jewellery, perfect for weddings, festivals and daily wear.","image":"https://picsum.photos/seed/jhumka68/500/500","inStock":true},{"id":69,"name":"Emerald Drop #69","category":"Earring","price":5580,"weight":"2.4g","material":"22K Gold","description":"Elegant handcrafted emerald drop from Alagu Jewellery, perfect for weddings, festivals and daily wear.","image":"https://picsum.photos/seed/jhumka69/500/500","inStock":true},{"id":70,"name":"Pearl Danglers #70","category":"Earring","price":7150,"weight":"21.9g","material":"925 Silver","description":"Elegant handcrafted pearl danglers from Alagu Jewellery, perfect for weddings, festivals and daily wear.","image":"https://picsum.photos/seed/jhumka70/500/500","inStock":true},{"id":71,"name":"Antique Jhumka #71","category":"Earring","price":7970,"weight":"9.3g","material":"Gold Plated","description":"Elegant handcrafted antique jhumka from Alagu Jewellery, perfect for weddings, festivals and daily wear.","image":"https://picsum.photos/seed/jhumka71/500/500","inStock":true},{"id":72,"name":"Temple Stud #72","category":"Earring","price":6110,"weight":"4.0g","material":"18K Gold","description":"Elegant handcrafted temple stud from Alagu Jewellery, perfect for weddings, festivals and daily wear.","image":"https://picsum.photos/seed/jhumka72/500/500","inStock":true},{"id":73,"name":"Meenakari Earring #73","category":"Earring","price":6570,"weight":"19.4g","material":"Gold Plated","description":"Elegant handcrafted meenakari earring from Alagu Jewellery, perfect for weddings, festivals and daily wear.","image":"https://picsum.photos/seed/jhumka73/500/500","inStock":true},{"id":74,"name":"Floral Stud #74","category":"Earring","price":5730,"weight":"20.2g","material":"18K Gold","description":"Elegant handcrafted floral stud from Alagu Jewellery, perfect for weddings, festivals and daily wear.","image":"https://picsum.photos/seed/jhumka74/500/500","inStock":true},{"id":75,"name":"Bridal Earring Set #75","category":"Earring","price":7610,"weight":"4.1g","material":"22K Gold","description":"Elegant handcrafted bridal earring set from Alagu Jewellery, perfect for weddings, festivals and daily wear.","image":"https://picsum.photos/seed/jhumka75/500/500","inStock":true},{"id":76,"name":"Tennis Bracelet #76","category":"Bracelet","price":7430,"weight":"14.8g","material":"22K Gold","description":"Elegant handcrafted tennis bracelet from Alagu Jewellery, perfect for weddings, festivals and daily wear.","image":"https://picsum.photos/seed/bracelet76/500/500","inStock":true},{"id":77,"name":"Charm Bracelet #77","category":"Bracelet","price":10040,"weight":"7.3g","material":"925 Silver","description":"Elegant handcrafted charm bracelet from Alagu Jewellery, perfect for weddings, festivals and daily wear.","image":"https://picsum.photos/seed/bracelet77/500/500","inStock":true},{"id":78,"name":"Cuban Bracelet #78","category":"Bracelet","price":10220,"weight":"21.4g","material":"22K Gold","description":"Elegant handcrafted cuban bracelet from Alagu Jewellery, perfect for weddings, festivals and daily wear.","image":"https://picsum.photos/seed/bracelet78/500/500","inStock":true},{"id":79,"name":"Beaded Bracelet #79","category":"Bracelet","price":6870,"weight":"14.6g","material":"Gold Plated","description":"Elegant handcrafted beaded bracelet from Alagu Jewellery, perfect for weddings, festivals and daily wear.","image":"https://picsum.photos/seed/bracelet79/500/500","inStock":true},{"id":80,"name":"Chain Bracelet #80","category":"Bracelet","price":9420,"weight":"12.3g","material":"Gold Plated","description":"Elegant handcrafted chain bracelet from Alagu Jewellery, perfect for weddings, festivals and daily wear.","image":"https://picsum.photos/seed/bracelet80/500/500","inStock":true},{"id":81,"name":"Kada Bracelet #81","category":"Bracelet","price":6120,"weight":"9.6g","material":"Gold Plated","description":"Elegant handcrafted kada bracelet from Alagu Jewellery, perfect for weddings, festivals and daily wear.","image":"https://picsum.photos/seed/bracelet81/500/500","inStock":true},{"id":82,"name":"Diamond Bracelet #82","category":"Bracelet","price":8560,"weight":"8.2g","material":"22K Gold","description":"Elegant handcrafted diamond bracelet from Alagu Jewellery, perfect for weddings, festivals and daily wear.","image":"https://picsum.photos/seed/bracelet82/500/500","inStock":true},{"id":83,"name":"Ruby Bracelet #83","category":"Bracelet","price":9010,"weight":"12.0g","material":"925 Silver","description":"Elegant handcrafted ruby bracelet from Alagu Jewellery, perfect for weddings, festivals and daily wear.","image":"https://picsum.photos/seed/bracelet83/500/500","inStock":true},{"id":84,"name":"Adjustable Bracelet #84","category":"Bracelet","price":7140,"weight":"3.5g","material":"18K Gold","description":"Elegant handcrafted adjustable bracelet from Alagu Jewellery, perfect for weddings, festivals and daily wear.","image":"https://picsum.photos/seed/bracelet84/500/500","inStock":true},{"id":85,"name":"Bridal Bracelet #85","category":"Bracelet","price":6180,"weight":"9.3g","material":"22K Gold","description":"Elegant handcrafted bridal bracelet from Alagu Jewellery, perfect for weddings, festivals and daily wear.","image":"https://picsum.photos/seed/bracelet85/500/500","inStock":true},{"id":86,"name":"Om Pendant #86","category":"Pendant","price":7840,"weight":"14.2g","material":"Gold Plated","description":"Elegant handcrafted om pendant from Alagu Jewellery, perfect for weddings, festivals and daily wear.","image":"https://picsum.photos/seed/pendant86/500/500","inStock":true},{"id":87,"name":"Lakshmi Pendant #87","category":"Pendant","price":7760,"weight":"14.3g","material":"18K Gold","description":"Elegant handcrafted lakshmi pendant from Alagu Jewellery, perfect for weddings, festivals and daily wear.","image":"https://picsum.photos/seed/pendant87/500/500","inStock":true},{"id":88,"name":"Cross Pendant #88","category":"Pendant","price":7060,"weight":"17.5g","material":"18K Gold","description":"Elegant handcrafted cross pendant from Alagu Jewellery, perfect for weddings, festivals and daily wear.","image":"https://picsum.photos/seed/pendant88/500/500","inStock":true},{"id":89,"name":"Heart Pendant #89","category":"Pendant","price":8020,"weight":"11.4g","material":"18K Gold","description":"Elegant handcrafted heart pendant from Alagu Jewellery, perfect for weddings, festivals and daily wear.","image":"https://picsum.photos/seed/pendant89/500/500","inStock":true},{"id":90,"name":"Peacock Pendant #90","category":"Pendant","price":6180,"weight":"5.5g","material":"18K Gold","description":"Elegant handcrafted peacock pendant from Alagu Jewellery, perfect for weddings, festivals and daily wear.","image":"https://picsum.photos/seed/pendant90/500/500","inStock":true},{"id":91,"name":"Initial Letter Pendant #91","category":"Pendant","price":7190,"weight":"19.6g","material":"925 Silver","description":"Elegant handcrafted initial letter pendant from Alagu Jewellery, perfect for weddings, festivals and daily wear.","image":"https://picsum.photos/seed/pendant91/500/500","inStock":true},{"id":92,"name":"Ruby Pendant #92","category":"Pendant","price":8270,"weight":"11.3g","material":"18K Gold","description":"Elegant handcrafted ruby pendant from Alagu Jewellery, perfect for weddings, festivals and daily wear.","image":"https://picsum.photos/seed/pendant92/500/500","inStock":true},{"id":93,"name":"Emerald Pendant #93","category":"Pendant","price":5090,"weight":"20.6g","material":"22K Gold","description":"Elegant handcrafted emerald pendant from Alagu Jewellery, perfect for weddings, festivals and daily wear.","image":"https://picsum.photos/seed/pendant93/500/500","inStock":true},{"id":94,"name":"Antique Pendant #94","category":"Pendant","price":8000,"weight":"10.8g","material":"Gold Plated","description":"Elegant handcrafted antique pendant from Alagu Jewellery, perfect for weddings, festivals and daily wear.","image":"https://picsum.photos/seed/pendant94/500/500","inStock":true},{"id":95,"name":"Locket Pendant #95","category":"Pendant","price":5110,"weight":"12.8g","material":"Gold Plated","description":"Elegant handcrafted locket pendant from Alagu Jewellery, perfect for weddings, festivals and daily wear.","image":"https://picsum.photos/seed/pendant95/500/500","inStock":true},{"id":96,"name":"Silver Payal #96","category":"Anklet","price":3530,"weight":"8.4g","material":"18K Gold","description":"Elegant handcrafted silver payal from Alagu Jewellery, perfect for weddings, festivals and daily wear.","image":"https://picsum.photos/seed/anklet96/500/500","inStock":true},{"id":97,"name":"Beaded Anklet #97","category":"Anklet","price":3960,"weight":"6.3g","material":"18K Gold","description":"Elegant handcrafted beaded anklet from Alagu Jewellery, perfect for weddings, festivals and daily wear.","image":"https://picsum.photos/seed/anklet97/500/500","inStock":true},{"id":98,"name":"Ghungroo Anklet #98","category":"Anklet","price":3840,"weight":"18.7g","material":"Gold Plated","description":"Elegant handcrafted ghungroo anklet from Alagu Jewellery, perfect for weddings, festivals and daily wear.","image":"https://picsum.photos/seed/anklet98/500/500","inStock":true},{"id":99,"name":"Chain Anklet #99","category":"Anklet","price":5120,"weight":"18.9g","material":"925 Silver","description":"Elegant handcrafted chain anklet from Alagu Jewellery, perfect for weddings, festivals and daily wear.","image":"https://picsum.photos/seed/anklet99/500/500","inStock":true},{"id":100,"name":"Bridal Anklet #100","category":"Anklet","price":3480,"weight":"14.1g","material":"925 Silver","description":"Elegant handcrafted bridal anklet from Alagu Jewellery, perfect for weddings, festivals and daily wear.","image":"https://picsum.photos/seed/anklet100/500/500","inStock":true}];
+var DEFAULT_ADMIN = { username: "alagu_owner", password: "Alagu@2026" };
+
+function getProducts() {
+  var data = localStorage.getItem("alagu_products");
+  if (!data) { localStorage.setItem("alagu_products", JSON.stringify(DEFAULT_PRODUCTS)); return DEFAULT_PRODUCTS.slice(); }
+  return JSON.parse(data);
+}
+function saveProducts(products) { localStorage.setItem("alagu_products", JSON.stringify(products)); }
+function getAdmin() {
+  var data = localStorage.getItem("alagu_admin");
+  if (!data) { localStorage.setItem("alagu_admin", JSON.stringify(DEFAULT_ADMIN)); return DEFAULT_ADMIN; }
+  return JSON.parse(data);
+}
+function saveAdmin(admin) { localStorage.setItem("alagu_admin", JSON.stringify(admin)); }
+
+function goToAdmin() {
+  document.getElementById("shopView").classList.add("hidden");
+  document.getElementById("adminView").classList.remove("hidden");
+  if (sessionStorage.getItem("alagu_logged_in") === "yes") { showPanel(); } else { showLogin(); }
+}
+function goToShop() {
+  document.getElementById("adminView").classList.add("hidden");
+  document.getElementById("shopView").classList.remove("hidden");
+  renderShop();
+}
+function showLogin() {
+  document.getElementById("loginView").classList.remove("hidden");
+  document.getElementById("panelView").classList.add("hidden");
+}
+function showPanel() {
+  document.getElementById("loginView").classList.add("hidden");
+  document.getElementById("panelView").classList.remove("hidden");
+  renderTable();
+}
+
+function doLogin() {
+  var u = document.getElementById("username").value.trim();
+  var p = document.getElementById("password").value;
+  var admin = getAdmin();
+  var errEl = document.getElementById("loginError");
+  if (u === admin.username && p === admin.password) {
+    sessionStorage.setItem("alagu_logged_in", "yes");
+    errEl.textContent = "";
+    showPanel();
+  } else {
+    errEl.textContent = "Invalid username or password";
+  }
+}
+function doLogout() {
+  sessionStorage.removeItem("alagu_logged_in");
+  showLogin();
+}
+
+var currentCategory = "All";
+var currentSearch = "";
+var visibleCount = 12;
+var PAGE_SIZE = 12;
+var filteredProducts = [];
+
+function renderShop() {
+  renderCategoryStrip();
+  applyFilters();
+}
+function renderCategoryStrip() {
+  var products = getProducts();
+  var counts = {};
+  products.forEach(function(p) { counts[p.category] = (counts[p.category] || 0) + 1; });
+  var strip = document.getElementById("categoryStrip");
+  var html = "";
+  html += '<div class="category-pill' + (currentCategory === "All" ? " active" : "") + '" data-cat="All">All (' + products.length + ")</div>";
+  for (var cat in counts) {
+    html += '<div class="category-pill' + (currentCategory === cat ? " active" : "") + '" data-cat="' + cat + '">' + cat + " (" + counts[cat] + ")</div>";
+  }
+  strip.innerHTML = html;
+  var pills = strip.querySelectorAll(".category-pill");
+  pills.forEach(function(pill) {
+    pill.addEventListener("click", function() { selectCategory(pill.getAttribute("data-cat")); });
+  });
+}
+function selectCategory(cat) {
+  currentCategory = cat;
+  visibleCount = PAGE_SIZE;
+  renderCategoryStrip();
+  applyFilters();
+  document.getElementById("shop").scrollIntoView({ behavior: "smooth" });
+}
+function doSearch(e) {
+  e.preventDefault();
+  currentSearch = document.getElementById("searchInput").value.trim().toLowerCase();
+  visibleCount = PAGE_SIZE;
+  applyFilters();
+  document.getElementById("shop").scrollIntoView({ behavior: "smooth" });
+  return false;
+}
+function applyFilters() {
+  var products = getProducts();
+  filteredProducts = products.filter(function(p) {
+    var matchCat = currentCategory === "All" || p.category === currentCategory;
+    var matchSearch = !currentSearch || p.name.toLowerCase().indexOf(currentSearch) !== -1;
+    return matchCat && matchSearch;
+  });
+  renderProducts();
+}
+function renderProducts() {
+  var grid = document.getElementById("productGrid");
+  var toShow = filteredProducts.slice(0, visibleCount);
+  document.getElementById("resultCount").textContent = "Showing " + toShow.length + " of " + filteredProducts.length + " items";
+  grid.innerHTML = toShow.map(function(p) {
+    return '<div class="product-card' + (p.inStock ? "" : " out-of-stock") + '">' +
+      '<span class="badge">' + p.category + "</span>" +
+      '<img src="' + p.image + '" alt="' + p.name + '" loading="lazy">' +
+      '<div class="product-info">' +
+        "<h3>" + p.name + "</h3>" +
+        '<div class="meta">' + p.material + " &bull; " + p.weight + "</div>" +
+        '<div class="price">Rs ' + Number(p.price).toLocaleString("en-IN") + " <small>/ piece</small></div>" +
+        '<span class="stock-tag ' + (p.inStock ? "in-stock" : "no-stock") + '">' + (p.inStock ? "In Stock" : "Out of Stock") + "</span>" +
+      "</div>" +
+    "</div>";
+  }).join("");
+  document.getElementById("loadMoreBtn").style.display = visibleCount >= filteredProducts.length ? "none" : "inline-block";
+}
+function loadMore() { visibleCount += PAGE_SIZE; renderProducts(); }
+
+function renderTable() {
+  var products = getProducts();
+  var body = document.getElementById("productTableBody");
+  body.innerHTML = products.map(function(p) {
+    return "<tr>" +
+      '<td><img src="' + p.image + '" alt=""></td>' +
+      "<td>" + p.name + "</td>" +
+      "<td>" + p.category + "</td>" +
+      "<td>Rs " + Number(p.price).toLocaleString("en-IN") + "</td>" +
+      "<td>" + p.material + "</td>" +
+      "<td>" + p.weight + "</td>" +
+      "<td>" + (p.inStock ? "In Stock" : "Out of Stock") + "</td>" +
+      "<td>" +
+        '<button class="btn btn-outline" style="padding:6px 12px;font-size:.8rem;" data-edit="' + p.id + '">Edit</button> ' +
+        '<button class="btn btn-danger" style="padding:6px 12px;font-size:.8rem;" data-delete="' + p.id + '">Delete</button>' +
+      "</td>" +
+    "</tr>";
+  }).join("");
+  body.querySelectorAll("[data-edit]").forEach(function(btn) {
+    btn.addEventListener("click", function() { openEditModal(Number(btn.getAttribute("data-edit"))); });
+  });
+  body.querySelectorAll("[data-delete]").forEach(function(btn) {
+    btn.addEventListener("click", function() { deleteProduct(Number(btn.getAttribute("data-delete"))); });
+  });
+}
+function openAddModal() {
+  document.getElementById("modalTitle").textContent = "Add New Jewellery";
+  document.getElementById("editId").value = "";
+  ["f_name","f_price","f_weight","f_material","f_image","f_description"].forEach(function(id) { document.getElementById(id).value = ""; });
+  document.getElementById("f_category").value = "Chain";
+  document.getElementById("f_instock").checked = true;
+  document.getElementById("productModal").classList.add("show");
+}
+function openEditModal(id) {
+  var products = getProducts();
+  var p = products.find(function(x) { return x.id === id; });
+  if (!p) return;
+  document.getElementById("modalTitle").textContent = "Edit Jewellery";
+  document.getElementById("editId").value = p.id;
+  document.getElementById("f_name").value = p.name;
+  document.getElementById("f_category").value = p.category;
+  document.getElementById("f_price").value = p.price;
+  document.getElementById("f_weight").value = p.weight;
+  document.getElementById("f_material").value = p.material;
+  document.getElementById("f_image").value = p.image;
+  document.getElementById("f_description").value = p.description;
+  document.getElementById("f_instock").checked = p.inStock;
+  document.getElementById("productModal").classList.add("show");
+}
+function closeModal(id) {
+  document.getElementById(id).classList.remove("show");
+  var pe = document.getElementById("passwordError");
+  if (pe) pe.textContent = "";
+}
+function saveProduct() {
+  var id = document.getElementById("editId").value;
+  var name = document.getElementById("f_name").value.trim();
+  var price = document.getElementById("f_price").value;
+  if (!name || !price) { showToast("Name and Price are required"); return; }
+  var products = getProducts();
+  var payload = {
+    name: name,
+    category: document.getElementById("f_category").value,
+    price: Number(price),
+    weight: document.getElementById("f_weight").value.trim(),
+    material: document.getElementById("f_material").value.trim(),
+    image: document.getElementById("f_image").value.trim() || ("https://picsum.photos/seed/jewel" + Date.now() + "/500/500"),
+    description: document.getElementById("f_description").value.trim(),
+    inStock: document.getElementById("f_instock").checked
+  };
+  if (id) {
+    var idx = products.findIndex(function(p) { return p.id === Number(id); });
+    if (idx > -1) products[idx] = Object.assign({}, products[idx], payload);
+  } else {
+    var nextId = products.length ? Math.max.apply(null, products.map(function(p) { return p.id; })) + 1 : 1;
+    payload.id = nextId;
+    products.push(payload);
+  }
+  saveProducts(products);
+  closeModal("productModal");
+  showToast(id ? "Product updated" : "Product added");
+  renderTable();
+}
+function deleteProduct(id) {
+  if (!confirm("Delete this jewellery item?")) return;
+  var products = getProducts().filter(function(p) { return p.id !== id; });
+  saveProducts(products);
+  showToast("Product deleted");
+  renderTable();
+}
+function openPasswordModal() {
+  document.getElementById("p_current").value = "";
+  document.getElementById("p_new").value = "";
+  document.getElementById("passwordModal").classList.add("show");
+}
+function changePassword() {
+  var current = document.getElementById("p_current").value;
+  var next = document.getElementById("p_new").value;
+  var errEl = document.getElementById("passwordError");
+  var admin = getAdmin();
+  if (current !== admin.password) { errEl.textContent = "Current password is incorrect"; return; }
+  if (!next || next.length < 6) { errEl.textContent = "New password must be at least 6 characters"; return; }
+  admin.password = next;
+  saveAdmin(admin);
+  closeModal("passwordModal");
+  showToast("Password changed successfully");
+}
+function showToast(msg) {
+  var t = document.getElementById("toast");
+  t.textContent = msg;
+  t.classList.add("show");
+  setTimeout(function() { t.classList.remove("show"); }, 2500);
+}
+
+document.getElementById("username") && null;
+renderShop();
+</script>
+</body>
+</html>
